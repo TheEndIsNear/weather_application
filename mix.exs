@@ -3,6 +3,18 @@ defmodule WeatherApplication.MixProject do
 
   def project do
     [
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ],
+      dialyzer: [
+        ignore_warnings: ".dialyzer_ignore.exs",
+        list_unused_filters: true,
+        plt_file: {:no_warn, "weather_application.plt"}
+      ],
       app: :weather_application,
       version: "0.1.0",
       elixir: "~> 1.7",
@@ -33,6 +45,12 @@ defmodule WeatherApplication.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:git_hooks, "~> 0.4.1", only: :dev, runtime: false},
+      {:excoveralls, "~> 0.12.3", only: :test},
+      {:credo, "~> 1.4.0", only: :dev, runtime: false},
+      {:mix_test_watch, "~> 1.0.2", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.0.0", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.21.3", only: :dev, runtime: false},
       {:phoenix, "~> 1.5.1"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
