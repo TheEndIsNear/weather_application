@@ -1,39 +1,39 @@
 defmodule WeatherApplicationWeb.PageLive do
+  @moduledoc """
+  Module for controlling  the display of the weather on the front page
+  """
   use WeatherApplicationWeb, :live_view
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: "", results: %{})}
+    {:ok, assign(socket, zip: "", temperature: "", results: %{})}
   end
 
   @impl true
-  def handle_event("suggest", %{"q" => query}, socket) do
-    {:noreply, assign(socket, results: search(query), query: query)}
+  @spec handle_event(<<_::48>>, map, Phoenix.LiveView.Socket.t()) ::
+          {:noreply, Phoenix.LiveView.Socket.t()}
+  def handle_event("search", %{"zip" => zip}, socket) do
+    temperature = parse_weather(zip)
+
+    {:noreply, assign(socket, zip: zip, temperature: temperature)}
   end
 
-  @impl true
-  def handle_event("search", %{"q" => query}, socket) do
-    case search(query) do
-      %{^query => vsn} ->
-        {:noreply, redirect(socket, external: "https://hexdocs.pm/#{query}/#{vsn}")}
+  @spec parse_weather(String.t()) :: String.t()
+  defp parse_weather(zip) do
+    api_key = Application.get_env(:weather_application, :openweather_api_key)
 
-      _ ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "No dependencies found matching \"#{query}\"")
-         |> assign(results: %{}, query: query)}
-    end
-  end
+    url =
+      String.to_charlist(
+        "http://api.openweathermap.org/data/2.5/weather?zip=#{zip}&units=imperial&appid=#{api_key}"
+      )
 
-  defp search(query) do
-    if not WeatherApplicationWeb.Endpoint.config(:code_reloader) do
-      raise "action disabled when not in development"
-    end
+    {:ok, {{'HTTP/1.1', 200, 'OK'}, _headers, body}} = :httpc.request(:get, {url, []}, [], [])
 
-    for {app, desc, vsn} <- Application.started_applications(),
-        app = to_string(app),
-        String.starts_with?(app, query) and not List.starts_with?(desc, ~c"ERTS"),
-        into: %{},
-        do: {app, vsn}
+    {:ok, %{"main" => %{"temp" => temp}}} =
+      body
+      |> List.to_string()
+      |> Jason.decode()
+
+    temp
   end
 end
