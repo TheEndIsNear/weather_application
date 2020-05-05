@@ -18,6 +18,7 @@ defmodule WeatherApplicationWeb.PageLive do
     {:noreply, assign(socket, zip: zip, temperature: temperature)}
   end
 
+  @spec parse_weather(String.t()) :: String.t()
   defp parse_weather(zip) do
     api_key = Application.get_env(:weather_application, :openweather_api_key)
 
