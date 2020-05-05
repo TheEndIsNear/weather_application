@@ -8,7 +8,8 @@
 use Mix.Config
 
 config :weather_application,
-  ecto_repos: [WeatherApplication.Repo]
+  ecto_repos: [WeatherApplication.Repo],
+  openweather_api_key: System.get_env("OWM_API_KEY")
 
 # Configures the endpoint
 config :weather_application, WeatherApplicationWeb.Endpoint,
