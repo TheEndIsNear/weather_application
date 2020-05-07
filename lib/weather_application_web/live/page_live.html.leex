@@ -7,6 +7,12 @@
   <div>
     <form phx-submit="search">
       <input type="text" name="zip" value="<%= @zip %>" placeholder="Zip code" list="results" autocomplete="off"/>
+      <div class="button-group">
+        <button value="imperial" phx-click="unit-selected" selected>Fahrenheit</option>
+        <button value="metric" phx-click="unit-selected">Celcius</option>
+        <button value="" phx-click="unit-selected">Kelvins</option>
+      </div>
+
       <datalist id="results">
         <%= for {app, _vsn} <- @results do %>
           <option value="<%= app %>"><%= app %></option>
@@ -15,4 +21,4 @@
       <button type="submit" phx-disable-with="Searching...">Look up weather</button>
     </form>
   </div>
-</section>
+</section
