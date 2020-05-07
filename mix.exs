@@ -32,7 +32,7 @@ defmodule WeatherApplication.MixProject do
   def application do
     [
       mod: {WeatherApplication.Application, []},
-      extra_applications: [:logger, :runtime_tools, :inets]
+      extra_applications: [:logger, :runtime_tools, :inets, :os_mon]
     ]
   end
 
