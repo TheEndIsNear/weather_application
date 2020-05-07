@@ -1,4 +1,7 @@
 defmodule WeatherApplication.OpenWeathermapClient.Client do
+  @moduledoc """
+  Implement the Weather client behaviour for connecting to the open weather map api.
+  """
   @behaviour WeatherApplication.WeatherClient
 
   alias WeatherApplication.RequestParams
