@@ -35,7 +35,7 @@ config :weather_application, WeatherApplicationWeb.Endpoint,
 # If you are doing OTP releases, you need to instruct Phoenix
 # to start each relevant endpoint:
 #
-#     config :weather_application, WeatherApplicationWeb.Endpoint, server: true
+config :weather_application, WeatherApplicationWeb.Endpoint, server: true
 #
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.
