@@ -20,3 +20,6 @@ config :weather_application, WeatherApplicationWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :weather_application,
+  weather_client: WeatherApplication.OpenWeathermapClient.TestClient
