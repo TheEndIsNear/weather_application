@@ -8,14 +8,23 @@ defmodule WeatherApplicationWeb.PageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, zip: "", temperature: "", units: "imperial", results: %{})}
+    changeset = RequestParams.changeset(%RequestParams{}, %{units: "imperial", zip: ""})
+    {:ok, assign(socket, units: "imperial", temperature: "", results: %{}, changeset: changeset)}
   end
 
   @impl true
-  def handle_event("search", %{"zip" => zip}, %{assigns: %{units: units}} = socket) do
-    temperature = client().request(%RequestParams{zip: zip, units: units})
+  def handle_event("search", %{"request_params" => params}, socket) do
+    changeset = RequestParams.changeset(params)
 
-    {:noreply, assign(socket, zip: zip, temperature: temperature)}
+    case changeset.valid? do
+      true ->
+        {:ok, request_params} = Ecto.Changeset.apply_action(changeset, :create)
+        temperature = client().request(request_params)
+        {:noreply, assign(socket, temperature: temperature, changeset: changeset)}
+
+      false ->
+        {:noreply, assign(socket, changeset: %{changeset | action: :create})}
+    end
   end
 
   @impl true

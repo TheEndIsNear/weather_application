@@ -5,12 +5,27 @@
   <div><%= @temperature %></div>
 
   <div>
-    <form phx-submit="search">
-      <input type="text" name="zip" value="<%= @zip %>" placeholder="Zip code" list="results" autocomplete="off"/>
-      <div class="button-group">
-        <button value="imperial" phx-click="unit-selected" selected>Fahrenheit</option>
-        <button value="metric" phx-click="unit-selected">Celcius</option>
-        <button value="" phx-click="unit-selected">Kelvins</option>
+    <%= f = form_for @changeset, "#", [phx_submit: :search] %>
+      <%= text_input f, :zip, placeholder: "Zip code" %>
+      <%= error_tag f, :zip %>
+
+      
+      <div>
+        <label f, :units>
+        <%= label do %>
+          <%= radio_button f, :units, "imperial" %>
+          "Fahrenheit"
+        <%end%>
+
+        <%= label do %>
+          <%= radio_button f, :units, "metric" %>
+          "Celcius"
+        <%end%>
+
+        <%= label do %>
+          <%= radio_button f, :units, "" %>
+          "Kelvin"
+        <%end%>
       </div>
 
       <datalist id="results">
