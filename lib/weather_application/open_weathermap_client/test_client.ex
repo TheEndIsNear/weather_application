@@ -9,14 +9,20 @@ defmodule WeatherApplication.OpenWeathermapClient.TestClient do
 
   @impl true
   def request(%RequestParams{units: "imperial"} = _params) do
-    %Weather{temperature: 80.0, location: "Albuquerque"}
+    %{temperature: 80.0, location: "Albuquerque"}
+    |> Weather.changeset()
+    |> Ecto.Changeset.apply_action!(:create)
   end
 
   def request(%RequestParams{units: "metric"} = _params) do
-    %Weather{temperature: 20.0, location: "Albuquerque"}
+    %{temperature: 20.0, location: "Albuquerque"}
+    |> Weather.changeset()
+    |> Ecto.Changeset.apply_action!(:create)
   end
 
   def request(%RequestParams{} = _params) do
-    %Weather{temperature: 300.0, location: "Albuquerque"}
+    %{temperature: 300.0, location: "Albuquerque"}
+    |> Weather.changeset()
+    |> Ecto.Changeset.apply_action!(:create)
   end
 end
