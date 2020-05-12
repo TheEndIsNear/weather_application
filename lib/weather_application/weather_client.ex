@@ -3,6 +3,7 @@ defmodule WeatherApplication.WeatherClient do
   Module describing the WeatherClient API
   """
   alias WeatherApplication.RequestParams
+  alias WeatherApplication.Weather
 
-  @callback request(params :: RequestParams.t()) :: String.t()
+  @callback request(params :: RequestParams.t()) :: Weather.t()
 end

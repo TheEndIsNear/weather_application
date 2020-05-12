@@ -13,7 +13,7 @@ defmodule WeatherApplicationWeb.PageLiveTest do
     test "using the default measurement", %{conn: conn} do
       {:ok, page_live, _} = live(conn, "/")
 
-      assert "300" ==
+      assert "300.0" ==
                page_live
                |> render_submit(:search, request_params: %{zip: "88007"})
                |> Floki.parse_document!()
@@ -24,7 +24,7 @@ defmodule WeatherApplicationWeb.PageLiveTest do
     test "using imperial measurements", %{conn: conn} do
       {:ok, page_live, _} = live(conn, "/")
 
-      assert "80" ==
+      assert "80.0" ==
                page_live
                |> render_submit(:search, request_params: %{zip: "88007", units: "imperial"})
                |> Floki.parse_document!()
@@ -35,7 +35,7 @@ defmodule WeatherApplicationWeb.PageLiveTest do
     test "using metric measurement", %{conn: conn} do
       {:ok, page_live, _} = live(conn, "/")
 
-      assert "20" ==
+      assert "20.0" ==
                page_live
                |> render_submit(:search, request_params: %{zip: "88007", units: "metric"})
                |> Floki.parse_document!()

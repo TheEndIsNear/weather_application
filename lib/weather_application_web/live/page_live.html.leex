@@ -2,7 +2,7 @@
   <h1><%= gettext "Welcome to %{name}!", name: "Weather App" %></h1>
 
   <h2> Current Temperature</h2>
-  <div class="temperature-text"><%= @temperature %></div>
+  <div class="temperature-text"><%= @weather.temperature %></div>
 
   <div>
     <%= f = form_for @changeset, "#", [phx_submit: :search] %>
