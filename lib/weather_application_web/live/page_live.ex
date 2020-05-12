@@ -4,12 +4,16 @@ defmodule WeatherApplicationWeb.PageLive do
   """
   use WeatherApplicationWeb, :live_view
 
+  alias WeatherApplication.Controller
+  alias WeatherApplication.Data.Weather
   alias WeatherApplication.RequestParams
 
   @impl true
   def mount(_params, _session, socket) do
     changeset = RequestParams.changeset(%RequestParams{}, %{units: "imperial", zip: ""})
-    {:ok, assign(socket, units: "imperial", temperature: "", results: %{}, changeset: changeset)}
+
+    {:ok,
+     assign(socket, units: "imperial", weather: %Weather{}, results: %{}, changeset: changeset)}
   end
 
   @impl true
@@ -19,8 +23,9 @@ defmodule WeatherApplicationWeb.PageLive do
     case changeset.valid? do
       true ->
         {:ok, request_params} = Ecto.Changeset.apply_action(changeset, :create)
-        temperature = client().request(request_params)
-        {:noreply, assign(socket, temperature: temperature, changeset: changeset)}
+        weather = client().request(request_params)
+        Controller.insert_weather(weather)
+        {:noreply, assign(socket, weather: weather, changeset: changeset)}
 
       false ->
         {:noreply, assign(socket, changeset: %{changeset | action: :create})}
