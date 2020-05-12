@@ -1,8 +1,15 @@
 <section class="phx-hero">
   <h1><%= gettext "Welcome to %{name}!", name: "Weather App" %></h1>
 
-  <h2> Current Temperature</h2>
-  <div class="temperature-text"><%= @weather.temperature %></div>
+  <div <%= if @weather.temperature == nil, do: "hidden" %> >
+    <h2 class="weather-title"> <%= "Current Weather in #{@weather.location}" %></h2>
+    <div class="weather-stats">
+      <p class="temperature-text"><%= "Current Temperature: #{@weather.temperature}" %></p>
+      <p><%= "Feels like: #{@weather.feels_like}" %></p>
+      <p><%= "Max Temperature #{@weather.temp_max}" %></p>
+      <p><%= "Min Temperature #{@weather.temp_min}" %></p>
+    </div>
+  </div> 
 
   <div>
     <%= f = form_for @changeset, "#", [phx_submit: :search] %>
