@@ -5,8 +5,8 @@ defmodule WeatherApplication.OpenWeathermapClient.Client do
   @behaviour WeatherApplication.WeatherClient
 
   alias Ecto.Changeset
-  alias WeatherApplication.RequestParams
   alias WeatherApplication.Data.Weather
+  alias WeatherApplication.RequestParams
 
   @base_url "http://api.openweathermap.org/data/2.5/weather?"
 

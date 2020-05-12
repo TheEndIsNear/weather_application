@@ -4,8 +4,8 @@ defmodule WeatherApplication.OpenWeathermapClient.TestClient do
   """
   @behaviour WeatherApplication.WeatherClient
 
-  alias WeatherApplication.RequestParams
   alias WeatherApplication.Data.Weather
+  alias WeatherApplication.RequestParams
 
   @impl true
   def request(%RequestParams{units: "imperial"} = _params) do
