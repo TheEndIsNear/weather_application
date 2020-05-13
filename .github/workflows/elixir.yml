@@ -13,6 +13,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      
+    - name: Setup PostgreSQL
+      uses: Harmon758/postgresql-action@v1.0.0
+      with:
+        # Version of PostgreSQL to use
+        postgresql version: latest # optional, default is latest
+        # POSTGRES_USER - create the specified user with superuser power
+        postgresql user: postgres
+        # POSTGRES_PASSWORD - superuser password
+        postgresql password: postgres # optional, default is 
+      
     - name: Setup elixir
       uses: actions/setup-elixir@v1
       with:
@@ -20,5 +31,7 @@ jobs:
         otp-version: 22.3.3 # Define the OTP version [required]
     - name: Install Dependencies
       run: mix deps.get
+    - name: Setup the Database
+      run: mix ecto.setup
     - name: Run Tests
       run: mix test
